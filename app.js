@@ -80,6 +80,10 @@ const main = async () => {
     const historicalQuizAnalysis = analyzeHistoricalQuiz(data.historicalQuizData);
     console.log('Historical Quiz Analysis (Performance Trends):', historicalQuizAnalysis);
 
+    // Predict NEET rank
+    const predictedRank = predictRank(data.historicalQuizData);
+    console.log('Predicted NEET Rank:', predictedRank);
+
 };
 
 // Function to analyse current quiz data 
@@ -88,17 +92,15 @@ const analyzeCurrentQuiz = (quizData) => {
     const topicAccuracy = {}; // Store accuracy for each topic
 
     quizData.quiz.questions.forEach(question => {
-        const topic = question.topic.trim(); // Get the topic of the question
+        const topic = question.topic.trim(); 
         const isCorrect = question.selectedOption === question.correctOption; // Check if the answer is correct
 
         // Initialize the topic in the accuracy object if it doesn't exist
-
         if (!topicAccuracy[topic]) {
             topicAccuracy[topic] = { correct: 0, total: 0 };
         }
 
         // Update the total number of questions and correct answers for the topic
-
         topicAccuracy[topic].total += 1;
         if (isCorrect) {
             topicAccuracy[topic].correct += 1;
@@ -106,7 +108,6 @@ const analyzeCurrentQuiz = (quizData) => {
     });
 
     // Calculate accuracy for each topic
-
     for (const topic in topicAccuracy) {
         const accuracy = (topicAccuracy[topic].correct / topicAccuracy[topic].total) * 100;
         topicAccuracy[topic].accuracy = accuracy.toFixed(2); 
@@ -134,6 +135,22 @@ const analyzeHistoricalQuiz = (historicalData) => {
     });
 
     return performanceTrends;
+};
+
+// Function to predict NEET rank
+
+const predictRank = (quizData) => {
+    // Calculate the average score from the quiz data
+
+    const totalScore = quizData.reduce((sum, quiz) => sum + quiz.score, 0);
+    const averageScore = totalScore / quizData.length;
+
+    // Example formula to predict rank
+
+    const predictedRank = 100000 - averageScore * 100; // Higher score = better rank
+    return Math.round(predictedRank); // Round to the nearest integer
+
+    // Percentile = [(Total candidates - Your rank) / Total candidates] * 100
 };
 
 main();
