@@ -31,3 +31,14 @@ const fetchQuizSubmissionData = async () => {
         console.error('Error fetching quiz submission data:', error);
     }
 };
+
+// Function to fetch historical quiz data from Historical Quiz Endpoint
+
+const fetchHistoricalQuizData = async () => {
+    try {
+        const response = await axios.get('https://api.jsonserve.com/XgAgFJ');
+        return response.data; 
+    } catch (error) {
+        console.error('Error fetching historical quiz data:', error);
+    }
+};
