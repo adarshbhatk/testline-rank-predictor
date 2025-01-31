@@ -14,10 +14,10 @@ This project analyzes quiz performance and predicts NEET rank and college admiss
 - POST /predict-rank: Predict NEET rank.
 - POST /predict-college: Predict eligible colleges and most probable college.
 
-1. Analyze Quiz Data
-    Endpoint: POST /api/analyze-quiz
-    Description: Analyzes the current quiz data and returns accuracy by topic.
-    Example Response:
+1. Analyze Quiz Data <br />
+    Endpoint: POST /api/analyze-quiz <br />
+    Description: Analyzes the current quiz data and returns accuracy by topic. <br />
+    Example Response: <br />
         {
             "currentQuizAnalysis": {
                 "structural organisation in animals": {
@@ -28,18 +28,18 @@ This project analyzes quiz performance and predicts NEET rank and college admiss
             }
         }
 
-2. Predict NEET Rank
-    Endpoint: POST /api/predict-rank
-    Description: Predicts the NEET rank based on historical quiz performance.
-    Example Response:
+2. Predict NEET Rank <br />
+    Endpoint: POST /api/predict-rank <br />
+    Description: Predicts the NEET rank based on historical quiz performance. <br />
+    Example Response: <br />
         {
             "predictedRank": 93971
         }
 
-3. Predict Colleges
-    Endpoint: POST /api/predict-college
-    Description: Predicts eligible colleges and the most probable college based on the predicted rank.
-    Example Response:
+3. Predict Colleges <br />
+    Endpoint: POST /api/predict-college <br />
+    Description: Predicts eligible colleges and the most probable college based on the predicted rank. <br />
+    Example Response: <br />
         {
             "eligibleColleges": [
                 "Amrita School of Medicine Kochi",
@@ -48,3 +48,13 @@ This project analyzes quiz performance and predicts NEET rank and college admiss
             ],
             "mostProbableCollege": "Amrita School of Medicine Kochi"
         }
+
+Contact
+
+For any questions or feedback, feel free to reach out:
+
+Email: adarshbhatk@gmail.com
+
+GitHub: [adarshbhatk](https://github.com/adarshbhatk)
+
+Website: https://adarshk.in/
