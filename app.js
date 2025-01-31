@@ -84,6 +84,11 @@ const main = async () => {
     const predictedRank = predictRank(data.historicalQuizData);
     console.log('Predicted NEET Rank:', predictedRank);
 
+    // Predict eligible colleges and the most probable college
+    const collegePredictions = predictCollege(predictedRank);
+    console.log('Eligible Colleges:', collegePredictions.eligibleColleges);
+    console.log('Most Probable College:', collegePredictions.mostProbableCollege);
+
 };
 
 // Function to analyse current quiz data 
@@ -151,6 +156,77 @@ const predictRank = (quizData) => {
     return Math.round(predictedRank); // Round to the nearest integer
 
     // Percentile = [(Total candidates - Your rank) / Total candidates] * 100
+};
+
+// Function to predict college based on NEET rank
+
+const predictCollege = (predictedRank) => {
+
+    // College cutoff data (source: Vedantu)
+
+    const collegeCutoffs = [
+    { "college": "AIIMS Delhi", "cutoff": 57 },
+    { "college": "KMC Manipal", "cutoff": 24330 },
+    { "college": "JIPMER Puducherry", "cutoff": 60 },
+    { "college": "KGMU Lucknow", "cutoff": 1097 },
+    { "college": "PGIMS Rohtak", "cutoff": 4588 },
+    { "college": "IMS BHU Varanasi", "cutoff": 858 },
+    { "college": "AMU Aligarh", "cutoff": 3304 },
+    { "college": "MAMC Delhi", "cutoff": 85 },
+    { "college": "KMC Mangalore", "cutoff": 30856 },
+    { "college": "VMMC Delhi", "cutoff": 107 },
+    { "college": "UCMS Delhi", "cutoff": 304 },
+    { "college": "RIMS Imphal", "cutoff": 9762 },
+    { "college": "SVIMS Tirupati", "cutoff": 10624 },
+    { "college": "Grant Medical College Mumbai", "cutoff": 1623 },
+    { "college": "BMCRI Bangalore", "cutoff": 1271 },
+    { "college": "GSMC Mumbai", "cutoff": 656 },
+    { "college": "GMCH Chandigarh", "cutoff": 544 },
+    { "college": "Kolkata Medical College", "cutoff": 2103 },
+    { "college": "Osmania Medical College", "cutoff": 3436 },
+    { "college": "MGIMS Wardha", "cutoff": 8793 },
+    { "college": "Amrita School of Medicine Kochi", "cutoff": 138654 },
+    { "college": "RPGMC Kangra", "cutoff": 4422 },
+    { "college": "KSHEMA Mangalore", "cutoff": 33023 },
+    { "college": "LHMC Delhi", "cutoff": 485 },
+    { "college": "MMC Chennai", "cutoff": 622 },
+    { "college": "LTMMC Mumbai", "cutoff": 2582 },
+    { "college": "BJMC Pune", "cutoff": 1892 },
+    { "college": "IPGMER Kolkata", "cutoff": 2249 },
+    { "college": "BJMC Ahmedabad", "cutoff": 594 },
+    { "college": "AIIMS Jodhpur", "cutoff": 469 },
+    { "college": "Sri Ramachandra Medical College Chennai", "cutoff": 223101 },
+    { "college": "MGMCRI Pondicherry", "cutoff": 805350 },
+    { "college": "RGKMCH Kolkata", "cutoff": 4802 }
+    ];
+
+    // Find colleges where the predicted rank is within the cutoff
+
+    const eligibleColleges = collegeCutoffs
+        .filter(college => predictedRank <= college.cutoff)
+        .map(college => college.college);
+
+    // Predict the most probable college
+    const mostProbableCollege = predictMostProbableCollege(predictedRank, collegeCutoffs);
+
+    return {
+        eligibleColleges,
+        mostProbableCollege
+    };
+
+};
+
+// Function to predict the most probable college
+
+const predictMostProbableCollege = (predictedRank, collegeCutoffs) => {
+    // Sort colleges by cutoff rank (ascending order)
+    const sortedColleges = collegeCutoffs.sort((a, b) => a.cutoff - b.cutoff);
+
+    // Find the first college where the student's rank is within the cutoff
+    const probableCollege = sortedColleges.find(college => predictedRank <= college.cutoff);
+
+    // If no college is found, return null or a default message
+    return probableCollege ? probableCollege.college : 'No eligible college found';
 };
 
 main();
