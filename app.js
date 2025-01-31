@@ -75,17 +75,20 @@ const main = async () => {
     // Analyze current quiz data
     const currentQuizAnalysis = analyzeCurrentQuiz(data.currentQuizData);
     console.log('Current Quiz Analysis (Accuracy by Topic):', currentQuizAnalysis);
+
+    // Analyze historical quiz data
+    const historicalQuizAnalysis = analyzeHistoricalQuiz(data.historicalQuizData);
+    console.log('Historical Quiz Analysis (Performance Trends):', historicalQuizAnalysis);
+
 };
 
-main();
-
-// Function to analyze current quiz data 
+// Function to analyse current quiz data 
 
 const analyzeCurrentQuiz = (quizData) => {
     const topicAccuracy = {}; // Store accuracy for each topic
 
     quizData.quiz.questions.forEach(question => {
-        const topic = question.topic; // Get the topic of the question
+        const topic = question.topic.trim(); // Get the topic of the question
         const isCorrect = question.selectedOption === question.correctOption; // Check if the answer is correct
 
         // Initialize the topic in the accuracy object if it doesn't exist
@@ -111,3 +114,26 @@ const analyzeCurrentQuiz = (quizData) => {
 
     return topicAccuracy;
 };
+
+// Function to analyze historical quiz data
+
+const analyzeHistoricalQuiz = (historicalData) => {
+    const performanceTrends = {}; // Store performance trends over time
+
+    historicalData.forEach(quiz => {
+        const date = quiz.submitted_at.split('T')[0]; // Get the date of the quiz
+        const score = quiz.score; // Get the score of the quiz
+
+        if (date && score !== undefined) {
+            performanceTrends[date] = score;
+        }
+
+        // Store the score for the date
+
+        performanceTrends[date] = score;
+    });
+
+    return performanceTrends;
+};
+
+main();
