@@ -66,10 +66,48 @@ const main = async () => {
 
     const data = await fetchAllData();
 
-    // Display the data
-    console.log('Current Quiz Data:', data.currentQuizData);
-    console.log('Quiz Submission Data:', data.quizSubmissionData);
-    console.log('Historical Quiz Data:', data.historicalQuizData);
+    // Display the data in console
+
+    // console.log('Current Quiz Data:', data.currentQuizData);
+    // console.log('Quiz Submission Data:', data.quizSubmissionData);
+    // console.log('Historical Quiz Data:', data.historicalQuizData);
+
+    // Analyze current quiz data
+    const currentQuizAnalysis = analyzeCurrentQuiz(data.currentQuizData);
+    console.log('Current Quiz Analysis (Accuracy by Topic):', currentQuizAnalysis);
 };
 
 main();
+
+// Function to analyze current quiz data 
+
+const analyzeCurrentQuiz = (quizData) => {
+    const topicAccuracy = {}; // Store accuracy for each topic
+
+    quizData.quiz.questions.forEach(question => {
+        const topic = question.topic; // Get the topic of the question
+        const isCorrect = question.selectedOption === question.correctOption; // Check if the answer is correct
+
+        // Initialize the topic in the accuracy object if it doesn't exist
+
+        if (!topicAccuracy[topic]) {
+            topicAccuracy[topic] = { correct: 0, total: 0 };
+        }
+
+        // Update the total number of questions and correct answers for the topic
+
+        topicAccuracy[topic].total += 1;
+        if (isCorrect) {
+            topicAccuracy[topic].correct += 1;
+        }
+    });
+
+    // Calculate accuracy for each topic
+
+    for (const topic in topicAccuracy) {
+        const accuracy = (topicAccuracy[topic].correct / topicAccuracy[topic].total) * 100;
+        topicAccuracy[topic].accuracy = accuracy.toFixed(2); 
+    }
+
+    return topicAccuracy;
+};
