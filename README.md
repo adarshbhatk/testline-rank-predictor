@@ -149,7 +149,7 @@ Steps:
 
 - Find the first college where the user's rank is within the cutoff.
 
-Contact
+## Contact
 
 For any questions or feedback, feel free to reach out:
 
