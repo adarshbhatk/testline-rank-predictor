@@ -42,3 +42,34 @@ const fetchHistoricalQuizData = async () => {
         console.error('Error fetching historical quiz data:', error);
     }
 };
+
+// Function to fetch all data from the APIs
+
+const fetchAllData = async () => {
+    const currentQuizData = await fetchCurrentQuizData();
+    const quizSubmissionData = await fetchQuizSubmissionData();
+    const historicalQuizData = await fetchHistoricalQuizData();
+
+    return {
+        currentQuizData,
+        quizSubmissionData,
+        historicalQuizData
+    };
+};
+
+// Main function to run the program
+
+const main = async () => {
+    console.log('Fetching data from APIs...');
+
+    // Fetch all data
+
+    const data = await fetchAllData();
+
+    // Display the data
+    console.log('Current Quiz Data:', data.currentQuizData);
+    console.log('Quiz Submission Data:', data.quizSubmissionData);
+    console.log('Historical Quiz Data:', data.historicalQuizData);
+};
+
+main();
